@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>adminpage</title>
+</head>
+<body>
+    <h3>남자 유저 데이터</h3>
+    <div id="a"></div>
+    <br>
+    <h3>여자 유저 데이터</h3>
+    <div id="b"></div>
+    <br>
+    <h3>남자 유저  wish 데이터</h3>
+    <div id="c"></div>
+    <h3>여자 유저  wish 데이터</h3>
+    <div id="d"></div>
+</body>
+<script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getAuth ,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyCu28T8AGnGothZa7rYrVIxurCbnatIKwk",
+        authDomain: "newgongtingproject.firebaseapp.com",
+        databaseURL: "https://newgongtingproject-default-rtdb.firebaseio.com",
+        projectId: "newgongtingproject",
+        storageBucket: "newgongtingproject.appspot.com",
+        messagingSenderId: "437346281808",
+        appId: "1:437346281808:web:f5a296945dff4429d26455"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const citiesRef2 = collection(db, "friendSubmit", "남자사용자", 'userprofile'); // "users"는 컬렉션의 이름
+    const snapshot2 = await getDocs(citiesRef2);
+    let k = ''
+    // Iterate over each document in the snapshot
+    snapshot2.forEach(doc => {
+        k += `
+            {
+            "uid":"${doc.id}",
+            "age": "${doc.data().age}",
+            "smoke":"${doc.data().smoke}",
+            "mbti":"${doc.data().mbti}",
+            "hobby":["${doc.data().hobby[0] ?? undefined}","${doc.data().hobby[1] ?? undefined}","${doc.data().hobby[2] ?? undefined}","${doc.data().hobby[3] ?? undefined}","${doc.data().hobby[4] ?? undefined}"],
+            "feature":["${doc.data().features[0] ?? undefined}","${doc.data().features[1] ?? undefined}","${doc.data().features[2] ?? undefined}","${doc.data().features[3] ?? undefined}","${doc.data().features[4] ?? undefined}"]
+            },
+        `;
+        document.getElementById('a').textContent = k        
+    });
+    const citiesRef4 = collection(db, "friendSubmit", "남자사용자", '여자'); // "users"는 컬렉션의 이름
+    const snapshot4 = await getDocs(citiesRef4);
+    let j = '';
+    // Iterate over each document in the snapshot
+    snapshot4.forEach(doc => {
+        // Add data to the row
+        j += `
+            {
+            "uid":"${doc.id}",
+            "age": "${doc.data().wishage}",
+            "smoke":"${doc.data().wishsmoke}",
+            "mbti":"${doc.data().wishmbti}",
+            "hobby":["${doc.data().wishhobby[0] ?? undefined}","${doc.data().wishhobby[1] ?? undefined}","${doc.data().wishhobby[2] ?? undefined}","${doc.data().wishhobby[3] ?? undefined}","${doc.data().wishhobby[4] ?? undefined}"],
+            "feature":["${doc.data().wishfeatures[0] ?? undefined}","${doc.data().wishfeatures[1] ?? undefined}","${doc.data().wishfeatures[2] ?? undefined}","${doc.data().wishfeatures[3] ?? undefined}","${doc.data().wishfeatures[4] ?? undefined}"]
+            },
+        `;        
+        document.getElementById('c').textContent = j
+    });
+
+    const citiesRef1 = collection(db, "friendSubmit", "여자사용자", 'userprofile'); // "users"는 컬렉션의 이름
+    const snapshot1 = await getDocs(citiesRef1);
+    let q = ''
+    // Iterate over each document in the snapshot
+    snapshot1.forEach(doc => {
+        q += `
+            {
+            "uid":"${doc.id}",
+            "age": "${doc.data().age}",
+            "smoke":"${doc.data().smoke}",
+            "mbti":"${doc.data().mbti}",
+            "hobby":["${doc.data().hobby[0] ?? undefined}","${doc.data().hobby[1] ?? undefined}","${doc.data().hobby[2] ?? undefined}","${doc.data().hobby[3] ?? undefined}","${doc.data().hobby[4] ?? undefined}"],
+            "feature":["${doc.data().features[0] ?? undefined}","${doc.data().features[1] ?? undefined}","${doc.data().features[2] ?? undefined}","${doc.data().features[3] ?? undefined}","${doc.data().features[4] ?? undefined}"]
+            },
+        `;
+        document.getElementById('b').textContent = q        
+    });
+    const citiesRef3 = collection(db, "friendSubmit", "여자사용자", '상관없음'); // "users"는 컬렉션의 이름
+    const snapshot3 = await getDocs(citiesRef3);
+    let o = '';
+    // Iterate over each document in the snapshot
+    snapshot3.forEach(doc => {
+        // Add data to the row
+        o += `
+            {
+            "uid":"${doc.id}",
+            "age": "${doc.data().wishage}",
+            "smoke":"${doc.data().wishsmoke}",
+            "mbti":"${doc.data().wishmbti}",
+            "hobby":["${doc.data().wishhobby[0] ?? undefined}","${doc.data().wishhobby[1] ?? undefined}","${doc.data().wishhobby[2] ?? undefined}","${doc.data().wishhobby[3] ?? undefined}","${doc.data().wishhobby[4] ?? undefined}"],
+            "feature":["${doc.data().wishfeatures[0] ?? undefined}","${doc.data().wishfeatures[1] ?? undefined}","${doc.data().wishfeatures[2] ?? undefined}","${doc.data().wishfeatures[3] ?? undefined}","${doc.data().wishfeatures[4] ?? undefined}"]
+            },
+        `;        
+        document.getElementById('d').textContent = o
+    });
+</script>
+</html>

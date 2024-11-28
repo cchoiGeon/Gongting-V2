@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>adminpage</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td>남자 수</td>
+                <td>여자 수</td>
+            </tr>
+        </thead>
+        <tbody id="tableBody"> 
+            <tr>
+                <td id="mcount"></td>
+                <td id="wcount"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+<script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getAuth ,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, doc, setDoc} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyCu28T8AGnGothZa7rYrVIxurCbnatIKwk",
+        authDomain: "newgongtingproject.firebaseapp.com",
+        databaseURL: "https://newgongtingproject-default-rtdb.firebaseio.com",
+        projectId: "newgongtingproject",
+        storageBucket: "newgongtingproject.appspot.com",
+        messagingSenderId: "437346281808",
+        appId: "1:437346281808:web:f5a296945dff4429d26455"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const citiesRef = collection(db, "userprofile"); 
+    const snapshot = await getDocs(citiesRef);
+    const tableBody = document.getElementById('tableBody');
+    let mcount = 0;
+    let wcount = 0;
+    // Iterate over each document in the snapshot
+    snapshot.forEach(doc => {
+        if (doc.data().gender === '남자') {
+            mcount+=1
+        }
+        if (doc.data().gender === '여자') {
+            wcount+=1
+        }
+    });
+    document.getElementById('mcount').textContent = mcount;
+    document.getElementById('wcount').textContent = wcount;
+</script>
+</html>

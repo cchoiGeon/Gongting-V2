@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>adminpage</title>
+</head>
+<body>
+    <form>
+        <input id="man" placeholder="남자 UID">
+        <input id="woman" placeholder="여자 UID">
+        <button type="submit" id="subbutton"> 확인 </button>
+    </form>
+</body>
+<script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getAuth ,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+    import { getFirestore, collection, getDoc, doc, setDoc} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyCu28T8AGnGothZa7rYrVIxurCbnatIKwk",
+        authDomain: "newgongtingproject.firebaseapp.com",
+        databaseURL: "https://newgongtingproject-default-rtdb.firebaseio.com",
+        projectId: "newgongtingproject",
+        storageBucket: "newgongtingproject.appspot.com",
+        messagingSenderId: "437346281808",
+        appId: "1:437346281808:web:f5a296945dff4429d26455"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    document.getElementById("subbutton").addEventListener('click',async(e)=>{
+        e.preventDefault()
+        const manUid = document.getElementById('man').value
+        const womanUid = document.getElementById('woman').value
+        const manInfo2 = (await getDoc(doc(db, "users", manUid))).data()
+        const womanInfo2= (await getDoc(doc(db, "users", womanUid))).data()
+        const manInfo = (await getDoc(doc(db, "userprofile", manUid))).data()
+        const womanInfo = (await getDoc(doc(db, "userprofile", womanUid))).data()
+        try{
+            await setDoc(doc(db, "loveResult", manUid), {
+            name: womanInfo2.name,
+            char: womanInfo2.char,
+            age : womanInfo.age,
+            gender: womanInfo.gender,
+            major:  womanInfo.major,
+            smoke: womanInfo.smoke,
+            socialmediaid: womanInfo.socialmediaid, 
+            socialmediaidtype: womanInfo.socialmediaidtype,                               
+            mbti: womanInfo.mbti,
+            hobby: womanInfo.hobby,
+            features: womanInfo.features,
+            introduction: womanInfo.introduction,
+            });
+            await setDoc(doc(db,"loveResult", womanUid), {
+                name: manInfo2.name,
+                char: manInfo2.char,
+                age : manInfo.age,
+                gender: manInfo.gender,
+                major:  manInfo.major,
+                smoke: manInfo.smoke,
+                socialmediaid: manInfo.socialmediaid, 
+                socialmediaidtype: manInfo.socialmediaidtype,                               
+                mbti: manInfo.mbti,
+                hobby: manInfo.hobby,
+                features: manInfo.features,
+                introduction: manInfo.introduction,
+            });
+            alert('완료')
+        }catch(err){
+            alert(err)
+        }   
+    });
+</script>
+</html>

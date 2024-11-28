@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공팅</title>
+    <link rel="stylesheet" href="css/verify.css">
+    <link rel="icon" href="pavicon/pavicon_png.png">
+    <script type="module" src="js/isLoggedIn.js"></script>
+    <script type="module" src="js/verify.js"></script>
+</head>
+<body>
+    <div class="body">
+        <header>
+            <div id="back-icon">
+                <a href="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44" fill="none">
+                        <path d="M24.8414 12.8414L15.6827 22L24.8414 31.1587" stroke="#111111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>                
+                </a>
+            </div>
+        </header>
+        
+        <section>
+            <p id="main-text">학생 인증</p>
+            <p id="sub-text">학생증을 업로드 해주세요</p>
+
+            <div id="photoPreview">
+                <img id="preview">
+            </div>
+            <!-- 여기에 인풋으로 파일 업로드 버튼 만들어야함 -->
+            <form>
+                <div id="upload">
+                    <input type="text" id="fileName" placeholder="파일명" readonly>
+                    <input type="file" id="fileInput" accept="image/*" name="card" onchange="readURL(this);">
+                    <label for="fileInput">파일 선택</label>
+                    <img id="preview">
+                </div>
+                <div id="verifyExplain">
+                    <li>학생증은 카메라로 찍어서 jpg / png로 올려주시면 됩니다.</li>
+                    <li>관리자가 확인 후 인증이 완료됩니다.</li>
+                    <li>학생증 증명을 안 할시 해당 웹 사이트를 사용 할 수 없습니다.</li>
+                    <li>학생증 증명에 실패하면 해당 아이디가 잠길 수 있습니다.</li>
+                    <li>타인의 학생증을 도용할 시 법적인 책임을 질 수 있습니다.</li>
+                    
+                </div>
+                <div id="div-button">
+                    <button id="subbutton" type="submit"> 
+                      제출하기
+                    </button>
+                </div>
+            </form>
+        </section>
+        <script>
+          
+          const fileInput = document.getElementById('fileInput');
+          const fileNameInput = document.getElementById('fileName');
+
+            function readURL(input) {
+              if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                  var preview = document.getElementById('preview');
+                  preview.src = e.target.result;
+          
+                  // 이미지 로드 후 크기 조절
+                  preview.onload = function () {
+                    var maxWidth = document.getElementById('photoPreview').clientWidth;
+                    var maxHeight = document.getElementById('photoPreview').clientHeight;
+          
+                    if (preview.width > maxWidth) {
+                      preview.width = maxWidth;
+                    }
+                    if (preview.height > maxHeight) {
+                      preview.height = maxHeight;
+                    }
+                  };
+                };
+                reader.readAsDataURL(input.files[0]);
+              } else {
+                document.getElementById('preview').src = '';
+              }
+            }
+
+            fileInput.addEventListener('change', (event) => {
+              const selectedFile = event.target.files[0];
+
+              if (selectedFile) {
+                fileName.value = selectedFile.name;
+              } else {
+                fileName.value = '';
+              }
+            });
+        </script>        
+    </div>
+    <script type="text/javascript">
+      (function(w, d, a){
+          w.__beusablerumclient__ = {
+              load : function(src){
+                  var b = d.createElement("script");
+                  b.src = src; b.async=true; b.type = "text/javascript";
+                  d.getElementsByTagName("head")[0].appendChild(b);
+              }
+          };w.__beusablerumclient__.load(a + "?url=" + encodeURIComponent(d.URL));
+      })(window, document, "//rum.beusable.net/load/b231115e233422u588");
+      </script>
+      
+      
+      <script type="text/javascript">
+      (function(w, d, a){
+          w.__beusablerumclient__ = {
+              load : function(src){
+                  var b = d.createElement("script");
+                  b.src = src; b.async=true; b.type = "text/javascript";
+                  d.getElementsByTagName("head")[0].appendChild(b);
+              }
+          };w.__beusablerumclient__.load(a + "?url=" + encodeURIComponent(d.URL));
+      })(window, document, "//rum.beusable.net/load/b231115e233422u588");
+      </script>
+</body>
+</html>

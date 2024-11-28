@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>adminpage</title>
+</head>
+<body>
+    <form>
+        <input id="man" placeholder="남자 UID">
+        <input id="woman" placeholder="여자 UID">
+        <button type="submit" id="subbutton"> 확인 </button>
+    </form>
+    <form>
+        <input id="man1" placeholder="남자1 UID">
+        <input id="man2" placeholder="남자2 UID">
+        <button type="submit" id="subbutton2"> 확인 </button>
+    </form>
+    <form>
+        <input id="woman1" placeholder="여자1 UID">
+        <input id="woman2" placeholder="여자2 UID">
+        <button type="submit" id="subbutton3"> 확인 </button>
+    </form>
+</body>
+<script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getAuth ,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+    import { getFirestore, collection, getDoc, doc, setDoc} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyCu28T8AGnGothZa7rYrVIxurCbnatIKwk",
+        authDomain: "newgongtingproject.firebaseapp.com",
+        databaseURL: "https://newgongtingproject-default-rtdb.firebaseio.com",
+        projectId: "newgongtingproject",
+        storageBucket: "newgongtingproject.appspot.com",
+        messagingSenderId: "437346281808",
+        appId: "1:437346281808:web:f5a296945dff4429d26455"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    document.getElementById("subbutton").addEventListener('click',async(e)=>{
+        e.preventDefault()
+        const manUid = document.getElementById('man').value
+        const womanUid = document.getElementById('woman').value
+        const manInfo2 = (await getDoc(doc(db, "users", manUid))).data()
+        const womanInfo2= (await getDoc(doc(db, "users", womanUid))).data()
+        const manInfo = (await getDoc(doc(db, "userprofile", manUid))).data()
+        const womanInfo = (await getDoc(doc(db, "userprofile", womanUid))).data()
+        try{
+            await setDoc(doc(db, "friendResult", manUid), {
+            name: womanInfo2.name,
+            char: womanInfo2.char,
+            age : womanInfo.age,
+            gender: womanInfo.gender,
+            major:  womanInfo.major,
+            smoke: womanInfo.smoke,
+            socialmediaid: womanInfo.socialmediaid, 
+            socialmediaidtype: womanInfo.socialmediaidtype,                               
+            mbti: womanInfo.mbti,
+            hobby: womanInfo.hobby,
+            features: womanInfo.features,
+            introduction: womanInfo.introduction,
+            });
+            await setDoc(doc(db,"friendResult", womanUid), {
+                name: manInfo2.name,
+                char: manInfo2.char,
+                age : manInfo.age,
+                gender: manInfo.gender,
+                major:  manInfo.major,
+                smoke: manInfo.smoke,
+                socialmediaid: manInfo.socialmediaid, 
+                socialmediaidtype: manInfo.socialmediaidtype,                               
+                mbti: manInfo.mbti,
+                hobby: manInfo.hobby,
+                features: manInfo.features,
+                introduction: manInfo.introduction,
+            });
+            alert('완료')
+        }catch(err){
+            alret(err)
+        }   
+    });
+    document.getElementById("subbutton2").addEventListener('click',async(e)=>{
+        e.preventDefault()
+        const man1Uid = document.getElementById('man1').value
+        const man2Uid = document.getElementById('man2').value
+        const man1Info2 = (await getDoc(doc(db, "users", man1Uid))).data()
+        const man2Info2= (await getDoc(doc(db, "users", man2Uid))).data()
+        const man1Info = (await getDoc(doc(db, "userprofile", man1Uid))).data()
+        const man2Info = (await getDoc(doc(db, "userprofile", man2Uid))).data()
+        try{
+            await setDoc(doc(db, "friendResult", man1Uid), {
+            name: man2Info2.name,
+            char: man2Info2.char,
+            age : man2Info.age,
+            gender: man2Info.gender,
+            major:  man2Info.major,
+            smoke: man2Info.smoke,
+            socialmediaid: man2Info.socialmediaid, 
+            socialmediaidtype: man2Info.socialmediaidtype,                               
+            mbti: man2Info.mbti,
+            hobby: man2Info.hobby,
+            features: man2Info.features,
+            introduction: man2Info.introduction,
+            });
+            await setDoc(doc(db,"friendResult", man2Uid), {
+                name: man1Info2.name,
+                char: man1Info2.char,
+                age : man1Info.age,
+                gender: man1Info.gender,
+                major:  man1Info.major,
+                smoke: man1Info.smoke,
+                socialmediaid: man1Info.socialmediaid, 
+                socialmediaidtype: man1Info.socialmediaidtype,                               
+                mbti: man1Info.mbti,
+                hobby: man1Info.hobby,
+                features: man1Info.features,
+                introduction: man1Info.introduction,
+            });
+            alert('완료')
+        }catch(err){
+            alret(err)
+        }   
+    });
+    document.getElementById("subbutton3").addEventListener('click',async(e)=>{
+        e.preventDefault()
+        const woman1Uid = document.getElementById('woman1').value
+        const woman2Uid = document.getElementById('woman2').value
+        const woman1Info2 = (await getDoc(doc(db, "users", woman1Uid))).data()
+        const woman2Info2= (await getDoc(doc(db, "users", woman2Uid))).data()
+        const woman1Info = (await getDoc(doc(db, "userprofile", woman1Uid))).data()
+        const woman2Info = (await getDoc(doc(db, "userprofile", woman2Uid))).data()
+        try{
+            await setDoc(doc(db, "friendResult", woman1Uid), {
+            name: woman2Info2.name,
+            char: woman2Info2.char,
+            age : woman2Info.age,
+            gender: woman2Info.gender,
+            major:  woman2Info.major,
+            smoke: woman2Info.smoke,
+            socialmediaid: woman2Info.socialmediaid, 
+            socialmediaidtype: woman2Info.socialmediaidtype,                               
+            mbti: woman2Info.mbti,
+            hobby: woman2Info.hobby,
+            features: woman2Info.features,
+            introduction: woman2Info.introduction,
+            });
+            await setDoc(doc(db,"friendResult", woman2Uid), {
+                name: woman1Info2.name,
+                char: woman1Info2.char,
+                age : woman1Info.age,
+                gender: woman1Info.gender,
+                major:  woman1Info.major,
+                smoke: woman1Info.smoke,
+                socialmediaid: woman1Info.socialmediaid, 
+                socialmediaidtype: woman1Info.socialmediaidtype,                               
+                mbti: woman1Info.mbti,
+                hobby: woman1Info.hobby,
+                features: woman1Info.features,
+                introduction: woman1Info.introduction,
+            });
+            alert('완료')
+        }catch(err){
+            alret(err)
+        }   
+    });
+</script>
+</html>

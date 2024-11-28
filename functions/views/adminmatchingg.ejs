@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>adminpage</title>
+</head>
+<body>
+    <form>
+        <input id="man" placeholder="남자 UID">
+        <input id="woman" placeholder="여자 UID">
+        <button type="submit" id="subbutton"> 확인 </button>
+    </form>
+</body>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getAuth ,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+    import { getFirestore, collection, getDoc, doc, setDoc} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyCu28T8AGnGothZa7rYrVIxurCbnatIKwk",
+        authDomain: "newgongtingproject.firebaseapp.com",
+        databaseURL: "https://newgongtingproject-default-rtdb.firebaseio.com",
+        projectId: "newgongtingproject",
+        storageBucket: "newgongtingproject.appspot.com",
+        messagingSenderId: "437346281808",
+        appId: "1:437346281808:web:f5a296945dff4429d26455"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    document.getElementById("subbutton").addEventListener('click',async(e)=>{
+        e.preventDefault()
+        const manUid = document.getElementById('man').value
+        const womanUid = document.getElementById('woman').value
+
+        const manInfo2 = (await getDoc(doc(db, "users", manUid))).data()
+        const manInfo = (await getDoc(doc(db, "groupSubmitdata", manUid))).data()
+        const womanInfo2 = (await getDoc(doc(db, "users", womanUid))).data()
+        const womanInfo = (await getDoc(doc(db, "groupSubmitdata", womanUid))).data()
+        try{
+            // await setDoc(doc(db, "groupResult", manUid), {
+            // char: 'avatar-img/3.png',
+            // frontname:womanInfo2.name,
+            // frontmajor:womanInfo2.major,
+            // name1: womanInfo.name1,
+            // name2: womanInfo.name2,
+            // name3: womanInfo.name3,
+            // age1 : womanInfo.age1,
+            // age2 : womanInfo.age2,
+            // age3 : womanInfo.age3,
+            // major1:  womanInfo.major1,
+            // major2:  womanInfo.major2,
+            // major3:  womanInfo.major3,
+            // socialmediaid: womanInfo.socialmediaid, 
+            // socialmediaidtype: womanInfo.socialmediaidtype,                               
+            // });
+            await setDoc(doc(db,"groupResult", womanUid), {
+                char: 'avatar-img/2.png',
+                frontname:manInfo2.name,
+                frontmajor:manInfo2.major,
+                name1: manInfo.name1,
+                name2: manInfo.name2,
+                name3: manInfo.name3,
+                age1 : manInfo.age1,
+                age2 : manInfo.age2,
+                age3 : manInfo.age3,
+                major1:  manInfo.major1,
+                major2:  manInfo.major2,
+                major3:  manInfo.major3,
+                socialmediaid: manInfo.socialmediaid, 
+                socialmediaidtype: manInfo.socialmediaidtype,   
+            });
+            alert('완료')
+        }catch(err){
+            alert(err)
+        }   
+    });
+</script>
+</html>

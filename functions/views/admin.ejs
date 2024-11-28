@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+    
+        th, td {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+    
+        th {
+          background-color: #f2f2f2;
+        }
+      </style>
+    <title>adminpage</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td>email</td>
+                <td>name</td>
+                <td>studentnum</td>
+                <td>verify</td>
+                <td>verifyroot</td>
+                <td>d</td>
+                <td>button</td>
+            </tr>
+        </thead>
+        <tbody id="tableBody"> 
+
+        </tbody>
+    </table>
+</body>
+<script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getAuth ,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyCu28T8AGnGothZa7rYrVIxurCbnatIKwk",
+        authDomain: "newgongtingproject.firebaseapp.com",
+        databaseURL: "https://newgongtingproject-default-rtdb.firebaseio.com",
+        projectId: "newgongtingproject",
+        storageBucket: "newgongtingproject.appspot.com",
+        messagingSenderId: "437346281808",
+        appId: "1:437346281808:web:f5a296945dff4429d26455"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const citiesRef = collection(db, "users"); // "users"는 컬렉션의 이름
+    const snapshot = await getDocs(citiesRef);
+    const tableBody = document.getElementById('tableBody');
+    // Iterate over each document in the snapshot
+    snapshot.forEach(doc => {
+        if (doc.data().verify === 'processing') {
+        // Create a new row
+        const newRow = document.createElement('tr');
+
+        // Add data to the row
+        newRow.innerHTML = `
+            <td>${doc.data().email}</td>
+            <td>${doc.data().name}</td>
+            <td>${doc.data().studentnum}</td>
+            <td>${doc.data().verify}</td>
+            <td>${doc.data().verifyurl}</td>
+            <td><a href="${doc.data().verifyurl}" target="_blank">학생증 확인하러 가기</a></td>
+            <td><a href="/admin/check/${doc.id}">확인</a></td>
+        `;
+
+        // Append the row to the table
+        tableBody.appendChild(newRow);
+        }
+        
+    });
+</script>
+</html>
